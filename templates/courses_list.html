@@ -1,23 +1,36 @@
 {% extends "base.html" %}
-{% block title %}Courses List{% endblock %}
+
+{% block title %}📚 Courses List{% endblock %}
+
 {% block content %}
-<h2>Courses</h2>
-<table class="table table-bordered">
-    <thead class="table-dark">
-        <tr>
-            <th>Course Name</th>
-            <th>Course Code</th>
-            <th>Instructor</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for course in courses %}
-        <tr>
-            <td>{{ course.name }}</td>
-            <td>{{ course.code }}</td>
-            <td>{{ course.instructor.username }}</td>
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
+<div class="container mt-4">
+    <h2 class="text-center mb-4">📚 Available Courses</h2>
+
+    {% if courses %}
+    <div class="table-responsive">
+        <table class="table table-hover table-striped text-center">
+            <thead class="table-primary">
+                <tr>
+                    <th>📖 Course Name</th>
+                    <th>🆔 Course Code</th>
+                    <th>👨‍🏫 Instructor</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for course in courses %}
+                <tr>
+                    <td><strong>{{ course.name }}</strong></td>
+                    <td>{{ course.code }}</td>
+                    <td>{{ course.instructor.username }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <div class="alert alert-warning text-center mt-4" role="alert">
+        No courses available at the moment.
+    </div>
+    {% endif %}
+</div>
 {% endblock %}

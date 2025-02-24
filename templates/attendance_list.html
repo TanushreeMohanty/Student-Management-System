@@ -1,25 +1,44 @@
 {% extends "base.html" %}
+
 {% block title %}Attendance Records{% endblock %}
+
 {% block content %}
-<h2>Attendance Records</h2>
-<table class="table table-bordered">
-    <thead class="table-dark">
-        <tr>
-            <th>Student</th>
-            <th>Course</th>
-            <th>Date</th>
-            <th>Status</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for record in attendance_records %}
-        <tr>
-            <td>{{ record.student.user.username }}</td>
-            <td>{{ record.course.name }}</td>
-            <td>{{ record.date }}</td>
-            <td>{{ record.status|yesno:"Present,Absent" }}</td>
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
+<div class="container mt-4">
+    <h2 class="text-center mb-4">📅 Attendance Records</h2>
+
+    {% if attendance_records %}
+    <div class="table-responsive">
+        <table class="table table-hover table-bordered text-center">
+            <thead class="table-success">
+                <tr>
+                    <th>👨‍🎓 Student</th>
+                    <th>📚 Course</th>
+                    <th>📅 Date</th>
+                    <th>✅ Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for record in attendance_records %}
+                <tr>
+                    <td><strong>{{ record.student.user.username }}</strong></td>
+                    <td>{{ record.course.name }}</td>
+                    <td>{{ record.date }}</td>
+                    <td>
+                        {% if record.status %}
+                            <span class="badge bg-success">Present</span>
+                        {% else %}
+                            <span class="badge bg-danger">Absent</span>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <div class="alert alert-warning text-center mt-4" role="alert">
+        No attendance records available.
+    </div>
+    {% endif %}
+</div>
 {% endblock %}
