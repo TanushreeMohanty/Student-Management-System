@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block title %}Teacher Dashboard{% endblock %}
+
+{% block content %}
+<div class="container text-center mt-5">
+    <h1>👩‍🏫 Welcome, Teacher!</h1>
+    <p class="lead">Manage your classes, students, and attendance here.</p>
+
+    <div class="row mt-4">
+        <div class="col-md-4">
+            <a href="{% url 'students_list' %}" class="btn btn-primary btn-lg">View Students</a>
+        </div>
+        <div class="col-md-4">
+            <a href="{% url 'courses_list' %}" class="btn btn-success btn-lg">Manage Courses</a>
+        </div>
+        <div class="col-md-4">
+            <a href="{% url 'attendance_list' %}" class="btn btn-warning btn-lg">Take Attendance</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

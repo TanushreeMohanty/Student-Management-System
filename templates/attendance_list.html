@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %}Attendance Records{% endblock %}
+{% block content %}
+<h2>Attendance Records</h2>
+<table class="table table-bordered">
+    <thead class="table-dark">
+        <tr>
+            <th>Student</th>
+            <th>Course</th>
+            <th>Date</th>
+            <th>Status</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for record in attendance_records %}
+        <tr>
+            <td>{{ record.student.user.username }}</td>
+            <td>{{ record.course.name }}</td>
+            <td>{{ record.date }}</td>
+            <td>{{ record.status|yesno:"Present,Absent" }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

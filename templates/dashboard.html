@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block title %}Admin Dashboard{% endblock %}
+{% block content %}
+<h2 class="text-center">Admin Dashboard</h2>
+
+<div class="row">
+    <div class="col-md-4">
+        <div class="card text-center bg-primary text-white">
+            <div class="card-body">
+                <h4>Students</h4>
+                <p>{{ students.count }}</p>
+                <a href="{% url 'students_list' %}" class="btn btn-light">View Details</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card text-center bg-success text-white">
+            <div class="card-body">
+                <h4>Courses</h4>
+                <p>{{ courses.count }}</p>
+                <a href="{% url 'courses_list' %}" class="btn btn-light">View Details</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card text-center bg-warning text-white">
+            <div class="card-body">
+                <h4>Attendance</h4>
+                <p>{{ attendance_records.count }}</p>
+                <a href="{% url 'attendance_list' %}" class="btn btn-light">View Details</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
