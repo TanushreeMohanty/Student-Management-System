@@ -1,35 +1,44 @@
 {% extends "base.html" %}
 {% block title %}Admin Dashboard{% endblock %}
-{% block content %}
-<h2 class="text-center">Admin Dashboard</h2>
 
-<div class="row">
-    <div class="col-md-4">
-        <div class="card text-center bg-primary text-white">
-            <div class="card-body">
-                <h4>Students</h4>
-                <p>{{ students.count }}</p>
-                <a href="{% url 'students_list' %}" class="btn btn-light">View Details</a>
+{% block content %}
+<div class="container mt-4">
+    <h2 class="text-center mb-4">Admin Dashboard</h2>
+
+    <div class="row g-4">
+        <div class="col-md-4">
+            <div class="card text-center bg-primary text-white shadow-lg border-0">
+                <div class="card-body">
+                    <h4><i class="fas fa-user-graduate"></i> Students</h4>
+                    <p class="display-5 fw-bold">{{ students.count }}</p>
+                    <a href="{% url 'students_list' %}" class="btn btn-light btn-sm">View Details</a>
+                </div>
             </div>
         </div>
-    </div>
-    <div class="col-md-4">
-        <div class="card text-center bg-success text-white">
-            <div class="card-body">
-                <h4>Courses</h4>
-                <p>{{ courses.count }}</p>
-                <a href="{% url 'courses_list' %}" class="btn btn-light">View Details</a>
+
+        <div class="col-md-4">
+            <div class="card text-center bg-success text-white shadow-lg border-0">
+                <div class="card-body">
+                    <h4><i class="fas fa-book"></i> Courses</h4>
+                    <p class="display-5 fw-bold">{{ courses.count }}</p>
+                    <a href="{% url 'courses_list' %}" class="btn btn-light btn-sm">View Details</a>
+                </div>
             </div>
         </div>
-    </div>
-    <div class="col-md-4">
-        <div class="card text-center bg-warning text-white">
-            <div class="card-body">
-                <h4>Attendance</h4>
-                <p>{{ attendance_records.count }}</p>
-                <a href="{% url 'attendance_list' %}" class="btn btn-light">View Details</a>
+
+        <div class="col-md-4">
+            <div class="card text-center bg-warning text-white shadow-lg border-0">
+                <div class="card-body">
+                    <h4><i class="fas fa-clipboard-list"></i> Attendance</h4>
+                    <p class="display-5 fw-bold">{{ attendance_records.count }}</p>
+                    <a href="{% url 'attendance_list' %}" class="btn btn-light btn-sm">View Details</a>
+                </div>
             </div>
         </div>
     </div>
 </div>
+
+<!-- FontAwesome for icons -->
+<script src="https://kit.fontawesome.com/your-fontawesome-kit.js" crossorigin="anonymous"></script>
+
 {% endblock %}

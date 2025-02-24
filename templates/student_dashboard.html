@@ -3,17 +3,34 @@
 {% block title %}Student Dashboard{% endblock %}
 
 {% block content %}
-<div class="container text-center mt-5">
-    <h1>🎓 Welcome, Student!</h1>
-    <p class="lead">View your courses, attendance, and performance here.</p>
+<div class="container mt-5">
+    <h1 class="text-center">🎓 Welcome, Student!</h1>
+    <p class="lead text-center">View your courses, attendance, and performance here.</p>
 
-    <div class="row mt-4">
-        <div class="col-md-6">
-            <a href="{% url 'courses_list' %}" class="btn btn-primary btn-lg">My Courses</a>
+    <div class="row g-4 mt-4 justify-content-center">
+        <div class="col-md-4">
+            <div class="card text-center border-0 shadow-lg">
+                <div class="card-body">
+                    <h4 class="fw-bold"><i class="fas fa-book-open"></i> My Courses</h4>
+                    <p class="text-muted">Check enrolled courses and progress.</p>
+                    <a href="{% url 'courses_list' %}" class="btn btn-primary btn-sm">View Courses</a>
+                </div>
+            </div>
         </div>
-        <div class="col-md-6">
-            <a href="{% url 'attendance_list' %}" class="btn btn-success btn-lg">My Attendance</a>
+
+        <div class="col-md-4">
+            <div class="card text-center border-0 shadow-lg">
+                <div class="card-body">
+                    <h4 class="fw-bold"><i class="fas fa-calendar-check"></i> My Attendance</h4>
+                    <p class="text-muted">Track your attendance records.</p>
+                    <a href="{% url 'attendance_list' %}" class="btn btn-success btn-sm">View Attendance</a>
+                </div>
+            </div>
         </div>
     </div>
 </div>
+
+<!-- FontAwesome for icons -->
+<script src="https://kit.fontawesome.com/your-fontawesome-kit.js" crossorigin="anonymous"></script>
+
 {% endblock %}
