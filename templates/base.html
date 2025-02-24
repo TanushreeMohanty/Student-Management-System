@@ -5,39 +5,178 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}SMS{% endblock %}</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+    <style>
+        /* ====== COLOR THEME ====== */
+        :root {
+            --primary: #10439F;
+            --secondary: #874CCC;
+            --accent: #F27BBD;
+            --bg-light: #F4F4F4;
+            --bg-dark: #121212;
+            --text-dark: #333;
+            --text-light: #fff;
+        }
+
+        /* ====== GENERAL STYLES ====== */
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            background-color: var(--bg-light);
+            color: var(--text-dark);
+            transition: background 0.3s ease, color 0.3s ease;
+        }
+        .content {
+            flex: 1;
+            padding: 20px;
+        }
+
+        /* ====== NAVBAR ====== */
+        .navbar {
+            background-color: var(--primary);
+            padding: 12px 20px;
+        }
+        .navbar-brand {
+            font-weight: bold;
+            letter-spacing: 1px;
+            color: var(--text-light);
+        }
+        .navbar-toggler {
+            border: none;
+        }
+        .navbar-nav .nav-link {
+            font-weight: 500;
+            margin-right: 15px;
+            color: var(--text-light);
+            transition: color 0.3s ease;
+        }
+        .navbar-nav .nav-link:hover {
+            color: var(--accent);
+        }
+
+        /* ====== FOOTER ====== */
+        .footer {
+            background-color: var(--primary);
+            color: var(--text-light);
+            text-align: center;
+            padding: 15px;
+            font-size: 14px;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            margin-top: auto;
+        }
+
+        /* ====== THEME TOGGLE BUTTON ====== */
+        .theme-toggle {
+            background: var(--secondary);
+            border: 2px solid var(--text-light);
+            padding: 6px 15px;
+            font-size: 14px;
+            font-weight: bold;
+            color: var(--text-light);
+            transition: all 0.3s ease;
+        }
+        .theme-toggle:hover {
+            background: var(--accent);
+            border-color: var(--accent);
+        }
+
+        /* ====== DARK MODE ====== */
+        .dark-mode {
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+        }
+        .dark-mode .navbar {
+            background-color: var(--secondary);
+        }
+        .dark-mode .footer {
+            background-color: var(--secondary);
+        }
+        .dark-mode .navbar-nav .nav-link {
+            color: var(--text-light);
+        }
+        .dark-mode .navbar-nav .nav-link:hover {
+            color: var(--accent);
+        }
+        .dark-mode .theme-toggle {
+            background: var(--primary);
+            border-color: var(--text-light);
+        }
+        .dark-mode .theme-toggle:hover {
+            background: var(--accent);
+        }
+    </style>
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+
+    <nav class="navbar navbar-expand-lg">
         <div class="container">
             <a class="navbar-brand" href="{% url 'home' %}">SMS</a>
-            <div class="collapse navbar-collapse">
+            <button id="themeToggle" class="btn theme-toggle ms-3">Light Mode</button>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
                     {% if user.is_authenticated %}
-                        <li class="nav-item"><a class="nav-link" href="{% url 'dashboard' %}">Admin Dashboard</a></li>
-                        {% if user.role == 'teacher' %}
-                            <li class="nav-item"><a class="nav-link" href="{% url 'teacher_dashboard' %}">Teacher Dashboard</a></li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">{{ user.username }} ({{ user.role|title }})</a>
+                        </li>
+                        {% if user.is_superuser %}
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'dashboard' %}">Admin Dashboard</a>
+                            </li>
+                        {% elif user.role == 'teacher' %}
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'teacher_dashboard' %}">Teacher Dashboard</a>
+                            </li>
                         {% elif user.role == 'student' %}
-                            <li class="nav-item"><a class="nav-link" href="{% url 'student_dashboard' %}">Student Dashboard</a></li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'student_dashboard' %}">Student Dashboard</a>
+                            </li>
                         {% elif user.role == 'parent' %}
-                            <li class="nav-item"><a class="nav-link" href="{% url 'parent_dashboard' %}">Parent Dashboard</a></li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'parent_dashboard' %}">Parent Dashboard</a>
+                            </li>
                         {% endif %}
-                        <li class="nav-item"><a class="nav-link" href="{% url 'logout' %}">Logout</a></li>
+                        <li class="nav-item">
+                            <a class="btn btn-outline-light ms-3" href="{% url 'profile' %}">View Profile</a>
+                        </li>
+                        
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+                        </li>
                     {% else %}
                         <li class="nav-item"><a class="nav-link" href="{% url 'login' %}">Login</a></li>
                         <li class="nav-item"><a class="nav-link" href="{% url 'register' %}">Sign Up</a></li>
                     {% endif %}
                 </ul>
-            </div>
+                </div>
         </div>
     </nav>
     
+    
 
-    <div class="container mt-4">
+    <div class="container mt-4 content">
         {% block content %}{% endblock %}
     </div>
 
-    <footer class="bg-dark text-white text-center py-3 mt-4">
+    <footer class="footer">
         <p>&copy; 2025 Student Management System</p>
     </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script>
+        const themeToggle = document.getElementById("themeToggle");
+        themeToggle.addEventListener("click", () => {
+            document.body.classList.toggle("dark-mode");
+            if (document.body.classList.contains("dark-mode")) {
+                themeToggle.textContent = "Dark Mode";
+            } else {
+                themeToggle.textContent = "Light Mode";
+            }
+        });
+    </script>
+
 </body>
 </html>
