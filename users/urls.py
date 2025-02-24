@@ -5,7 +5,7 @@ from .views import home,register, profile, admin_dashboard, students_list, cours
 urlpatterns = [
     path('', home, name='home'),  #done
     path('register/', register, name='register'), #done
-    path('profile/', profile, name='profile'), 
+    path('profile/', profile, name='profile'),  #done
     path('login/', auth_views.LoginView.as_view(template_name='login.html'), name='login'), #done
     path('logout/', logout_view, name='logout'),  #done
      path('dashboard/', admin_dashboard, name='dashboard'), #done

@@ -1,12 +1,12 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth import login, authenticate,logout
+from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.decorators import login_required
-from .forms import UserRegisterForm, UserUpdateForm
-from .models import User,Student, Course, Attendance
-from .forms import CustomUserCreationForm
+from django.urls import reverse_lazy
+from .forms import CustomUserCreationForm, UserUpdateForm
+from .models import Student, Course, Attendance
 from .decorators import role_required
 
-# User Registration
+# 🔹 User Registration
 def register(request):
     if request.method == 'POST':
         form = CustomUserCreationForm(request.POST)
@@ -15,52 +15,53 @@ def register(request):
             login(request, user)
             return redirect('dashboard')  # Redirect to dashboard after signup
     else:
-        form = UserRegisterForm()
+        form = CustomUserCreationForm()  # Fixed form reference
+
     return render(request, 'register.html', {'form': form})
 
-# User Profile
+# 🔹 User Profile
 @login_required
 def profile(request):
     if request.method == 'POST':
         form = UserUpdateForm(request.POST, instance=request.user)
         if form.is_valid():
             form.save()
-            return redirect('profile')
+            return redirect('profile')  # Stay on profile page after update
     else:
         form = UserUpdateForm(instance=request.user)
+
     return render(request, 'profile.html', {'form': form})
 
-
+# 🔹 Dashboard for Admin
 @login_required
 @role_required(['admin'])
 def admin_dashboard(request):
-    students = Student.objects.all()
-    courses = Course.objects.all()
-    attendance_records = Attendance.objects.all()
-    return render(request, 'dashboard.html', {
-        'students': students,
-        'courses': courses,
-        'attendance_records': attendance_records
-    })
+    context = {
+        'students': Student.objects.all(),
+        'courses': Course.objects.all(),
+        'attendance_records': Attendance.objects.all()
+    }
+    return render(request, 'dashboard.html', context)
 
+# 🔹 List Views (Students, Courses, Attendance)
 @login_required
 def students_list(request):
-    students = Student.objects.all()
-    return render(request, 'students_list.html', {'students': students})
+    return render(request, 'students_list.html', {'students': Student.objects.all()})
 
 @login_required
 def courses_list(request):
-    courses = Course.objects.all()
-    return render(request, 'courses_list.html', {'courses': courses})
+    return render(request, 'courses_list.html', {'courses': Course.objects.all()})
+
 @login_required
 def attendance_list(request):
-    attendance_records = Attendance.objects.all()
-    return render(request, 'attendance_list.html', {'attendance_records': attendance_records})
+    return render(request, 'attendance_list.html', {'attendance_records': Attendance.objects.all()})
 
+# 🔹 Logout
 def logout_view(request):
     logout(request)
-    return redirect('login')  # Redirect to login page after logout
+    return redirect('login')
 
+# 🔹 Role-Based Dashboards
 @login_required
 @role_required(['teacher'])
 def teacher_dashboard(request):
@@ -76,5 +77,6 @@ def student_dashboard(request):
 def parent_dashboard(request):
     return render(request, 'parent_dashboard.html')
 
+# 🔹 Homepage
 def home(request):
     return render(request, 'home.html')
